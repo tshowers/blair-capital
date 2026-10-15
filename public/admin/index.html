@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Staff · Blair Capital</title>
+  <link rel="icon" href="/assets/ljblair-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <script type="module" src="/js/admin.js"></script>
+</head>
+
+<body>
+  <header class="admin-header">
+    <div class="admin-wrap admin-bar">
+      <span class="logo small"><img src="/assets/ljblair-logo.png" alt=""></span>
+      <span class="admin-title"><b>BLAIR</b><span>Staff · Performance</span></span>
+      <button type="button" class="btn-signout" data-signout hidden>Sign out</button>
+      <a href="/" class="view-site">View site</a>
+    </div>
+  </header>
+
+  <p class="loading" data-loading>Loading…</p>
+
+  <main class="signin-wrap" data-signin hidden>
+    <form class="card signin" data-signin-form novalidate>
+      <h1>Staff sign-in</h1>
+      <p class="muted">Update quarterly performance on blair-capital.co.</p>
+      <label class="field">Email
+        <input type="email" name="email" required autocomplete="email" placeholder="name@blair-capital.co">
+      </label>
+      <label class="field">Password
+        <input type="password" name="password" required autocomplete="current-password" placeholder="••••••••">
+      </label>
+      <p class="error" data-signin-error hidden></p>
+      <button type="submit" class="btn-dark">Sign in</button>
+    </form>
+  </main>
+
+  <main class="signin-wrap" data-denied hidden>
+    <div class="card signin">
+      <h1>No publishing access</h1>
+      <p class="muted"><span data-denied-email></span> is signed in but isn't set up to publish performance. Ask the site manager to add this account.</p>
+    </div>
+  </main>
+
+  <main class="admin-wrap admin-main" data-app hidden>
+    <form class="card" data-form novalidate>
+      <div class="form-body">
+        <div class="stack-6">
+          <h1 data-form-title>Publish a quarter</h1>
+          <p class="muted">Enter each return as a percent. Tap + / − to mark a gain or loss.</p>
+        </div>
+        <div class="when">
+          <div class="stack-6 when-q">
+            <span class="field-label">Quarter</span>
+            <div class="q-picker" role="group" aria-label="Quarter" data-q-picker></div>
+          </div>
+          <label class="field year">Year
+            <input type="text" inputmode="numeric" maxlength="4" data-year>
+          </label>
+        </div>
+        <div class="fields" data-fields></div>
+        <p class="error" data-error hidden></p>
+        <p class="muted" data-overwrite hidden></p>
+        <div class="saved" data-saved hidden>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+          <span data-saved-text></span>
+        </div>
+      </div>
+      <div class="action-bar">
+        <button type="button" class="btn-clear" data-clear>Clear</button>
+        <button type="submit" class="btn-publish" data-publish>Publish</button>
+      </div>
+    </form>
+
+    <div class="stack-12">
+      <h2 class="list-title">Published quarters</h2>
+      <div class="card list" data-list></div>
+      <p class="footnote">Changes go live as soon as you publish. The most recent quarter shows at the top of the site; every quarter appears in the history chart.</p>
+    </div>
+  </main>
+</body>
+
+</html>

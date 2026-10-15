@@ -1,0 +1,111 @@
+/* Staff updater. Phone-first: inputs >= 16px (no iOS zoom), tap targets >= 44px. Tokens come from site.css. */
+input::placeholder { color: #9aa8b6; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: default; opacity: .7; }
+
+.admin-wrap { max-width: 620px; margin: 0 auto; padding-left: 18px; padding-right: 18px; }
+.admin-header { background: var(--navy-950); color: #fff; }
+.admin-bar { padding-top: 14px; padding-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.logo.small { width: 36px; height: 36px; }
+.admin-title { display: flex; flex-direction: column; line-height: 1.1; margin-right: auto; }
+.admin-title b { letter-spacing: .12em; font-size: 15px; }
+.admin-title span { font-size: 12px; color: var(--on-navy-3); }
+.btn-signout {
+  background: transparent; border: 1px solid var(--navy-line-3); color: #fff; font-size: 14px; font-weight: 600;
+  padding: 9px 14px; border-radius: 6px; min-height: 40px;
+}
+.btn-signout:hover { background: var(--navy-hover); }
+.view-site { color: var(--blue-on-navy); font-size: 14px; font-weight: 600; text-decoration: none; padding: 9px 4px; }
+.view-site:hover { color: #fff; }
+
+.loading { text-align: center; color: var(--text-3); padding: 60px 18px; }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 12px; }
+.muted { font-size: 15px; line-height: 1.5; color: var(--text-2); }
+.error { font-size: 15px; color: var(--error); font-weight: 600; }
+.stack-6 { display: flex; flex-direction: column; gap: 6px; }
+.stack-12 { display: flex; flex-direction: column; gap: 12px; }
+
+.signin-wrap { max-width: 460px; margin: 0 auto; padding: clamp(28px, 8vw, 80px) 18px; }
+.signin { padding: 28px 22px; display: flex; flex-direction: column; gap: 18px; }
+.signin h1 { font-size: 32px; line-height: 1.1; }
+
+.field, .field-label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
+.field input {
+  font: inherit; font-weight: 400; font-size: 17px; min-height: 52px; padding: 0 14px;
+  border: 1px solid var(--input-line); border-radius: 8px; background: #fff; color: var(--ink); width: 100%;
+}
+.btn-dark {
+  background: var(--ink); color: #fff; border: none; border-radius: 8px; font-weight: 600; font-size: 17px;
+  min-height: 54px; margin-top: 4px;
+}
+.btn-dark:hover:not(:disabled) { background: var(--navy-700); }
+
+.admin-main { padding-top: 22px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 28px; }
+.form-body { padding: 24px 20px 4px; display: flex; flex-direction: column; gap: 20px; }
+.form-body h1 { font-size: 30px; line-height: 1.1; }
+.when { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.when-q { flex: 1 1 220px; }
+.q-picker { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--track); border-radius: 8px; padding: 4px; gap: 4px; }
+.q-picker button {
+  border: none; font-size: 16px; font-weight: 700; min-height: 44px; border-radius: 6px;
+  background: transparent; color: var(--text-4);
+}
+.q-picker button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.field.year { width: 110px; }
+.field.year input { font-weight: 600; }
+
+.fields { display: flex; flex-direction: column; gap: 14px; }
+.num-row { display: flex; gap: 8px; }
+.num-label { font-size: 14px; font-weight: 600; }
+.num-label.bcm { font-weight: 700; color: var(--green-text); }
+.sign {
+  width: 52px; min-height: 52px; flex: none; border: none; border-radius: 8px; font-size: 24px; font-weight: 700;
+  background: var(--green-tint); color: var(--green-text-2);
+}
+.sign.neg { background: var(--error-tint); color: var(--error); }
+.num-input { position: relative; flex: 1; }
+.num-input input {
+  font: inherit; font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; width: 100%;
+  min-height: 52px; padding: 0 40px 0 14px; border: 1px solid var(--input-line); border-radius: 8px;
+  color: var(--ink); background: #fff;
+}
+.num-input input[aria-invalid="true"], .field input[aria-invalid="true"] { border-color: var(--error); }
+.num-input span { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 18px; color: var(--text-3); }
+
+.saved {
+  display: flex; gap: 10px; align-items: center; padding: 14px 16px; border-radius: 8px;
+  background: var(--green-tint); color: var(--green-text-2); font-size: 15px; font-weight: 600;
+}
+.action-bar {
+  position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--line); border-radius: 0 0 12px 12px;
+  padding: 14px 20px; margin-top: 20px; display: flex; gap: 10px;
+}
+.btn-clear {
+  background: transparent; border: 1px solid var(--input-line); color: var(--ink); border-radius: 8px;
+  font-weight: 600; font-size: 16px; min-height: 54px; padding: 0 18px;
+}
+.btn-publish {
+  flex: 1; background: var(--green); color: #fff; border: none; border-radius: 8px; font-weight: 700;
+  font-size: 17px; min-height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.btn-publish:hover:not(:disabled) { background: var(--green-hover); }
+.spinner {
+  width: 18px; height: 18px; border: 2.5px solid rgba(255, 255, 255, .4); border-top-color: #fff;
+  border-radius: 50%; animation: spin .8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2.4s; } }
+
+.list-title { font-size: 24px; }
+.list { display: flex; flex-direction: column; }
+.list-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--line-2); flex-wrap: wrap; }
+.list-row:last-child { border-bottom: none; }
+.list-row .info { display: flex; flex-direction: column; gap: 2px; margin-right: auto; }
+.list-row .info b { font-size: 16px; }
+.list-row .info span { font-size: 14px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+.list-row .info strong { color: var(--green-text); }
+.list-empty { padding: 18px 16px; color: var(--text-3); font-size: 15px; }
+.btn-edit { background: var(--subtle); border: none; color: var(--ink); border-radius: 8px; font-weight: 600; font-size: 15px; min-height: 44px; padding: 0 16px; }
+.btn-edit:hover { background: var(--track); }
+.btn-delete { background: transparent; border: none; color: var(--error); border-radius: 8px; font-weight: 600; font-size: 15px; min-height: 44px; padding: 0 10px; }
+.footnote { font-size: 14px; line-height: 1.55; color: var(--text-3); }

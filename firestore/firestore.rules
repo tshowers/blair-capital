@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// Deployed to blaircapital-prod (NOT the Taliferro hosting project).
+// Rules are project-wide: before deploying, merge in the rules already live in
+// blaircapital-prod so other Blair apps keep working. See firestore/README.md.
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    function isAdmin() {
+      return request.auth != null
+        && exists(/databases/$(db)/documents/admins/$(request.auth.uid));
+    }
+
+    function isPct(v) {
+      return v is number && v >= -100 && v <= 100;
+    }
+
+    function validQuarter(id) {
+      let d = request.resource.data;
+      return d.year is int && d.year >= 2000 && d.year <= 2100
+        && d.q in [1, 2, 3, 4]
+        && id == string(d.year) + '-Q' + string(d.q)
+        && isPct(d.bcm) && isPct(d.dow) && isPct(d.sp500) && isPct(d.sp400) && isPct(d.nasdaq)
+        && d.keys().hasOnly(['year', 'q', 'bcm', 'dow', 'sp500', 'sp400', 'nasdaq', 'updatedAt', 'updatedBy']);
+    }
+
+    // Blair Capital website: quarterly performance (public read, staff write).
+    match /performance/{id} {
+      allow read: if true;
+      allow create, update: if isAdmin() && validQuarter(id);
+      allow delete: if isAdmin();
+    }
+
+    // Staff allow-list. Managed in the Firebase console only.
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // --- Existing blaircapital-prod rules go below this line ---
+  }
+}

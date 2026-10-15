@@ -5,77 +5,141 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blair Capital Management</title>
-  <link rel="stylesheet" type="text/css" href="css/style-v1.css">
+  <meta name="description" content="Blair Capital Management: personalized wealth management, portfolio management, tax-savvy investing and retirement strategies." />
+  <link rel="icon" href="assets/ljblair-logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/site.css">
+  <script type="module" src="js/site.js"></script>
 </head>
 
 <body>
-  <div class="backgroundGlow"></div>
-  <div class="grain"></div>
-  <div class="marketTicker" aria-label="Performance summary">
-    <div class="marketTickerTrack">
-      <div class="marketTickerItem"><strong>Blair Capital Q1 2026</strong><span>BCM -1.24%</span></div>
-      <div class="marketTickerItem"><strong>DOW</strong><span>-3.61%</span></div>
-      <div class="marketTickerItem"><strong>S&amp;P 500</strong><span>-4.6%</span></div>
-      <div class="marketTickerItem"><strong>S&amp;P 400</strong><span>2.54%</span></div>
-      <div class="marketTickerItem"><strong>NASDAQ</strong><span>4.5%</span></div>
-      <div class="marketTickerItem"><strong>Quarter</strong><span>1st Quarter 2026</span></div>
-      <div class="marketTickerItem"><strong>Blair Capital Q1 2026</strong><span>BCM -1.24%</span></div>
-      <div class="marketTickerItem"><strong>DOW</strong><span>-3.61%</span></div>
-      <div class="marketTickerItem"><strong>S&amp;P 500</strong><span>-4.6%</span></div>
-      <div class="marketTickerItem"><strong>S&amp;P 400</strong><span>2.54%</span></div>
-      <div class="marketTickerItem"><strong>NASDAQ</strong><span>4.5%</span></div>
-      <div class="marketTickerItem"><strong>Quarter</strong><span>1st Quarter 2026</span></div>
+  <div class="top">
+    <!-- Latest quarter is hard-coded here so numbers show before Firestore loads; js/site.js overwrites it. -->
+    <div class="ticker" aria-label="Latest quarter performance">
+      <div class="wrap" data-ticker>
+        <span class="ticker-q">Q2 2026</span>
+        <span class="ticker-item bcm"><span>BCM</span><b>+13.1%</b></span>
+        <span class="ticker-item"><span>Dow 30</span><b>+12.9%</b></span>
+        <span class="ticker-item"><span>S&amp;P 500</span><b>+10.2%</b></span>
+        <span class="ticker-item"><span>S&amp;P 400</span><b>+17.3%</b></span>
+        <span class="ticker-item"><span>Nasdaq</span><b>+23.1%</b></span>
+      </div>
     </div>
-  </div>
-  <header>
-    <div class="headerInner">
-      <div class="brand">Blair Capital Management</div>
+
+    <header class="wrap site-header">
+      <a href="#top" class="brand">
+        <span class="logo"><img src="assets/ljblair-logo.png" alt="Blair Capital Management logo"></span>
+        <span class="wordmark"><b>BLAIR</b><span>Capital Management</span></span>
+      </a>
       <nav class="nav">
+        <a href="#performance">Performance</a>
         <a href="#services">Services</a>
         <a href="#team">Team</a>
-        <a href="#contact">Contact</a>
+        <a href="#contact" class="nav-cta">Contact</a>
       </nav>
-    </div>
-  </header>
+    </header>
+
+    <section id="top" class="wrap grid hero">
+      <div class="hero-copy">
+        <span class="eyebrow on-navy">Blair Capital Management</span>
+        <h1>Wealth needs a plan, not noise.</h1>
+        <p>Your trusted advisor for wealth growth, retirement strategy, portfolio management, and financial confidence.</p>
+        <div class="btn-row">
+          <a href="#contact" class="btn btn-primary">Schedule Consultation</a>
+          <a href="#services" class="btn btn-outline">Explore Services</a>
+        </div>
+      </div>
+
+      <div class="perf-card" data-card>
+        <div class="perf-card-top">
+          <span><span data-latest-label>Q2 2026</span> performance</span>
+          <a href="#performance">All quarters →</a>
+        </div>
+        <div class="perf-big">
+          <span class="big" data-latest-bcm>+13.1%</span>
+          <span class="cap">Blair Capital Management, quarter return</span>
+        </div>
+        <div data-comparisons>
+          <div class="cmp"><span>Dow 30</span><span class="val">+12.9%</span><span class="pill ahead">BCM +0.2 pts</span></div>
+          <div class="cmp"><span>S&amp;P 500</span><span class="val">+10.2%</span><span class="pill ahead">BCM +2.9 pts</span></div>
+          <div class="cmp"><span>S&amp;P 400</span><span class="val">+17.3%</span><span class="pill">BCM −4.2 pts</span></div>
+          <div class="cmp"><span>Nasdaq</span><span class="val">+23.1%</span><span class="pill">BCM −10 pts</span></div>
+        </div>
+        <p class="fine">Past performance does not guarantee future results.</p>
+      </div>
+    </section>
+  </div>
+
   <main>
-    <section class="storyPanel">
-      <div class="storyGrid">
-        <div class="copy">
-          <span class="eyebrow">Blair Capital Management</span>
-          <h1>Wealth needs a plan, not noise.</h1>
-          <p> Your trusted advisor for wealth growth, retirement strategy, portfolio management, and financial confidence. </p>
-          <div class="ctaRow">
-            <a href="#contact" class="btn btnPrimary">Schedule Consultation</a>
-            <a href="#services" class="btn btnSecondary">Explore Services</a>
+    <section id="performance" class="wrap history">
+      <div class="history-head">
+        <div class="stack">
+          <span class="eyebrow">Performance history</span>
+          <h2>Quarter by quarter, against the market.</h2>
+          <p class="lead">Blair Capital Management returns compared with the Dow 30, S&amp;P 500, S&amp;P 400 and Nasdaq.</p>
+        </div>
+        <div class="toggle" role="group" aria-label="View as">
+          <button type="button" data-view="chart" aria-pressed="true">Chart</button>
+          <button type="button" data-view="table" aria-pressed="false">Table</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="legend" data-legend></div>
+        <div class="chart" data-chart>
+          <div class="y-axis" data-y-axis></div>
+          <div class="plot-scroll">
+            <div data-plot-inner>
+              <div class="plot" data-plot></div>
+              <div class="x-labels" data-x-labels></div>
+            </div>
           </div>
         </div>
-        <div class="visual">
-          <img src="assets/wealth-manager-illustration.png" alt="">
+        <div class="table-scroll" data-table hidden>
+          <table class="perf-table">
+            <thead>
+              <tr><th>Quarter</th><th class="bcm">BCM</th><th>Dow 30</th><th>S&amp;P 500</th><th>S&amp;P 400</th><th>Nasdaq</th></tr>
+            </thead>
+            <tbody data-tbody></tbody>
+          </table>
         </div>
       </div>
+      <p class="disclaimer">Past performance is not indicative of future results. BCM figures reflect the quarterly return of Blair Capital Management's managed portfolio for the period shown. Index returns are provided for comparison only; indices are unmanaged and cannot be invested in directly. All investing involves risk, including possible loss of principal.</p>
     </section>
-    <section class="storyPanel" id="services">
-      <div class="storyGrid reverse">
-        <div class="copy">
+
+    <section id="services" class="services">
+      <div class="wrap">
+        <div class="stack section-head">
           <span class="eyebrow">Personalized Wealth Management</span>
           <h2>Your money should follow your life.</h2>
-          <p> Blair Capital Management builds financial strategies around your goals, timeline, and tolerance for risk. </p>
+          <p class="lead">Blair Capital Management builds financial strategies around your goals, timeline, and tolerance for risk.</p>
         </div>
-        <div class="visual">
-          <img src="assets/market-analysis-icon.png" alt="">
+        <div class="grid service-grid">
+          <div class="service">
+            <span class="tag">01 · PORTFOLIO MANAGEMENT</span>
+            <h3>Your portfolio should adapt without chasing.</h3>
+            <p>Blair Capital combines analytics and human judgment to help your investments stay aligned with your ambitions.</p>
+          </div>
+          <div class="service">
+            <span class="tag">02 · TAX-SAVVY INVESTING</span>
+            <h3>Growth means more when you keep more.</h3>
+            <p>Smart tax planning helps reduce drag, preserve gains, and align decisions with long-term goals.</p>
+          </div>
+          <div class="service">
+            <span class="tag">03 · RETIREMENT STRATEGIES</span>
+            <h3>Retirement should feel planned, not guessed.</h3>
+            <p>Build a strategy designed for income, taxes, longevity, and market shifts.</p>
+          </div>
         </div>
-      </div>
-    </section>
-    <section class="storyPanel">
-      <div class="storyGrid">
-        <div class="copy">
-          <span class="eyebrow">Best Performing Positions</span>
-          <h2>Strong positions are selected with intent.</h2>
-          <ul class="positions">
+
+        <div class="grid positions">
+          <div class="stack">
+            <span class="eyebrow on-navy">Best Performing Positions</span>
+            <h2>Strong positions are selected with intent.</h2>
+          </div>
+          <ul>
             <li>NVIDIA</li>
             <li>Domino’s Pizza</li>
             <li>Fidelity NAS 100</li>
@@ -83,274 +147,71 @@
             <li>Rivian Automotive</li>
           </ul>
         </div>
-        <div class="visual">
-          <img src="assets/sustainable-investing-icon.png" alt="">
-        </div>
       </div>
     </section>
-    <section class="storyPanel">
-      <div class="storyGrid reverse">
-        <div class="copy">
-          <span class="eyebrow">Tax-Savvy Investing</span>
-          <h2>Growth means more when you keep more.</h2>
-          <p> Smart tax planning helps reduce drag, preserve gains, and align decisions with long-term goals. </p>
-        </div>
-        <div class="visual">
-          <img src="assets/2.png" alt="">
-        </div>
-      </div>
-    </section>
-    <section class="storyPanel">
-      <div class="storyGrid">
-        <div class="copy">
-          <span class="eyebrow">Portfolio Management</span>
-          <h2>Your portfolio should adapt without chasing.</h2>
-          <p> Blair Capital combines analytics and human judgment to help your investments stay aligned with your ambitions. </p>
-        </div>
-        <div class="visual">
-          <img src="assets/9.png" alt="">
-        </div>
-      </div>
-    </section>
-    <section class="storyPanel">
-      <div class="storyGrid reverse">
-        <div class="copy">
-          <span class="eyebrow">Retirement Strategies</span>
-          <h2>Retirement should feel planned, not guessed.</h2>
-          <p> Build a strategy designed for income, taxes, longevity, and market shifts. </p>
-        </div>
-        <div class="visual">
-          <img src="assets/7.png" alt="">
-        </div>
-      </div>
-    </section>
-    <section class="storyPanel">
-      <div class="copy" style="max-width: 1200px; text-align:center;">
+
+    <section class="wrap why-section">
+      <div class="stack section-head">
         <span class="eyebrow">Why Blair Capital?</span>
         <h2>Guidance should stay personal.</h2>
-        <div class="whyGrid">
-          <div class="whyCard">
-            <span class="number">01</span>
-            <h3>Personalized Attention</h3>
-            <p> Consultations tailored to your financial journey. </p>
-          </div>
-          <div class="whyCard">
-            <span class="number">02</span>
-            <h3>Regular Insights</h3>
-            <p> Quarterly reviews help align your goals with market movement. </p>
-          </div>
-          <div class="whyCard">
-            <span class="number">03</span>
-            <h3>Unwavering Integrity</h3>
-            <p> Guidance rooted in discipline, integrity, and client care. </p>
-          </div>
+      </div>
+      <div class="grid why-grid">
+        <div class="why" style="--c: var(--green)">
+          <h3>Personalized Attention</h3>
+          <p>Consultations tailored to your financial journey.</p>
+        </div>
+        <div class="why" style="--c: var(--blue)">
+          <h3>Regular Insights</h3>
+          <p>Quarterly reviews help align your goals with market movement.</p>
+        </div>
+        <div class="why" style="--c: var(--ink)">
+          <h3>Unwavering Integrity</h3>
+          <p>Guidance rooted in discipline, integrity, and client care.</p>
         </div>
       </div>
     </section>
-    <section class="storyPanel" id="team">
-      <div class="storyGrid reverse">
-        <div class="copy">
+
+    <section id="team" class="wrap team">
+      <div class="grid">
+        <!-- Placeholder until Lester Blair's portrait arrives: replace the "LB" with <img src="assets/team/lester-blair.jpg" alt="Lester Blair"> -->
+        <div class="portrait" aria-hidden="true">LB</div>
+        <div class="team-copy">
           <span class="eyebrow">Meet Our Team</span>
           <h2>Strategy works better when people understand it.</h2>
-          <p> The team supports portfolio management, retirement preparation, tax planning, and risk mitigation with clear guidance. </p>
-        </div>
-        <div class="visual">
-          <img src="assets/finance-investment-icon.png" alt="">
+          <p class="lead">The team supports portfolio management, retirement preparation, tax planning, and risk mitigation with clear guidance.</p>
+          <div class="person">
+            <span class="serif">Lester Blair</span>
+            <span>CEO</span>
+          </div>
         </div>
       </div>
     </section>
-    <section class="storyPanel" id="contact">
-      <div class="copy" style="text-align:center; max-width:900px;">
-        <span class="eyebrow">Join Us</span>
-        <h2>Start with a conversation.</h2>
-        <p> Contact Blair Capital Management for a complimentary consultation and a clearer view of your financial future. </p>
-        <div class="ctaRow" style="justify-content:center;">
-          <a href="mailto:info@blair-capital.co" class="btn btnPrimary"> Email Blair Capital </a>
-          <a href="tel:13125932062" class="btn btnSecondary"> Call 312.593.2062 </a>
+
+    <section id="contact" class="contact">
+      <div class="wrap grid">
+        <div class="stack">
+          <span class="eyebrow on-navy">Join Us</span>
+          <h2>Start with a conversation.</h2>
+          <p>Contact Blair Capital Management for a complimentary consultation and a clearer view of your financial future.</p>
+          <div class="btn-row">
+            <a href="mailto:info@blair-capital.co" class="btn btn-primary">Email Blair Capital</a>
+            <a href="tel:13125932062" class="btn btn-outline">Call 312.593.2062</a>
+          </div>
         </div>
-        <div class="contactCard">
-          <div>31 Montego Colony Unit 4</div>
-          <div>Fox Lake, IL 60020</div>
-          <div>info@blair-capital.co</div>
-          <div>312.593.2062</div>
-          <div>Fax: 224.706.9117</div>
+        <div class="address">
+          <span class="w">31 Montego Colony Unit 4</span>
+          <span class="w">Fox Lake, IL 60020</span>
+          <a href="mailto:info@blair-capital.co">info@blair-capital.co</a>
+          <span>312.593.2062</span>
+          <span>Fax: 224.706.9117</span>
         </div>
       </div>
+      <footer class="wrap site-footer">
+        <span>Blair Capital Management © <span data-year>2026</span></span>
+        <a href="/admin/">Staff sign-in</a>
+      </footer>
     </section>
   </main>
-  <footer> Blair Capital Management © 2026 </footer>
-  <script>
-    window.addEventListener('load', () => {
-      if (!window.gsap || !window.ScrollTrigger) return;
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const isMobile = window.matchMedia('(max-width: 980px)').matches;
-      const panels = gsap.utils.toArray('.storyPanel');
-
-      if (prefersReducedMotion || isMobile || !panels.length) {
-        gsap.set('.copy, .visual, .whyCard, .positions li', {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          clearProps: 'filter'
-        });
-        return;
-      }
-
-      panels.forEach((panel, index) => {
-        const copy = panel.querySelector('.copy');
-        const visual = panel.querySelector('.visual');
-        const detailItems = panel.querySelectorAll('.whyCard, .positions li');
-        const nextPanel = panels[index + 1];
-
-        gsap.set(panel, {
-          position: 'relative',
-          zIndex: 20 + index,
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          clearProps: 'filter'
-        });
-
-        if (copy) {
-          gsap.set(copy, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            clearProps: 'filter'
-          });
-        }
-
-        if (visual) {
-          gsap.set(visual, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            clearProps: 'filter'
-          });
-        }
-
-        if (detailItems.length) {
-          gsap.set(detailItems, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            clearProps: 'filter'
-          });
-        }
-
-        if (index > 0 && copy) {
-          gsap.fromTo(copy, {
-            autoAlpha: 0.08,
-            y: 120,
-            scale: 0.92,
-            filter: 'blur(12px)'
-          }, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            filter: 'blur(0px)',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: panel,
-              start: 'top bottom',
-              end: 'top 38%',
-              scrub: true
-            }
-          });
-        }
-
-        if (index > 0 && visual) {
-          gsap.fromTo(visual, {
-            autoAlpha: 0.08,
-            y: 120,
-            scale: 1.08,
-            filter: 'blur(14px)'
-          }, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            filter: 'blur(0px)',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: panel,
-              start: 'top bottom',
-              end: 'top 32%',
-              scrub: true
-            }
-          });
-        }
-
-        if (index > 0 && detailItems.length) {
-          gsap.fromTo(detailItems, {
-            autoAlpha: 0,
-            y: 70,
-            scale: 0.96,
-            filter: 'blur(10px)'
-          }, {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            filter: 'blur(0px)',
-            ease: 'none',
-            stagger: 0.08,
-            scrollTrigger: {
-              trigger: panel,
-              start: 'top 78%',
-              end: 'top 34%',
-              scrub: true
-            }
-          });
-        }
-
-        if (nextPanel) {
-          const exitTimeline = gsap.timeline({
-            scrollTrigger: {
-              trigger: nextPanel,
-              start: 'top 88%',
-              end: 'top 18%',
-              scrub: true
-            }
-          });
-
-          if (copy) {
-            exitTimeline.to(copy, {
-              autoAlpha: 0,
-              y: -180,
-              scale: 0.78,
-              filter: 'blur(18px)',
-              ease: 'none'
-            }, 0);
-          }
-
-          if (visual) {
-            exitTimeline.to(visual, {
-              autoAlpha: 0,
-              y: -220,
-              scale: 0.22,
-              filter: 'blur(24px)',
-              ease: 'none'
-            }, 0);
-          }
-
-          if (detailItems.length) {
-            exitTimeline.to(detailItems, {
-              autoAlpha: 0,
-              y: -120,
-              scale: 0.82,
-              filter: 'blur(16px)',
-              ease: 'none',
-              stagger: 0.04
-            }, 0);
-          }
-        }
-      });
-
-      ScrollTrigger.refresh();
-    });
-  </script>
 </body>
 
 </html>

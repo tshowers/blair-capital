@@ -1,22 +1,9 @@
-// Shared by the public site and the staff updater.
-// Data lives in Firestore in the blaircapital-prod project; hosting stays on taliferro-de66f.
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
-import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
-
-export const app = initializeApp({
-  apiKey: 'AIzaSyBVU5dzbGcpwFBbyPS_Iwq37bIMpCNIpcQ',
-  authDomain: 'blaircapital-prod.firebaseapp.com',
-  projectId: 'blaircapital-prod',
-  storageBucket: 'blaircapital-prod.appspot.com',
-  messagingSenderId: '829550889645',
-  appId: '1:829550889645:web:2ffe9d7d15b0b860195424'
-});
-export const db = getFirestore(app);
-
+// Shared by the public site and the staff updater. No network dependencies.
 // Shown until Firestore responds (and if it can't be reached).
 export const FALLBACK = [
   { year: 2026, q: 1, bcm: -1.24, dow: -3.61, sp500: -4.6, sp400: 2.54, nasdaq: 4.5 },
-  { year: 2026, q: 2, bcm: 13.1, dow: 12.9, sp500: 10.2, sp400: 17.3, nasdaq: 23.1 }
+  { year: 2026, q: 2, bcm: 13.1, dow: 12.9, sp500: 10.2, sp400: 17.3, nasdaq: 23.1 },
+  { year: 2026, q: 3, bcm: 11.1, dow: 6.48, sp500: 12.81, sp400: 10.98, nasdaq: 16.99 }
 ];
 
 export const SERIES = [

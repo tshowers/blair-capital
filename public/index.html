@@ -11,6 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/site.css">
+  <script>
+    // Turn on entrance animations unless the visitor prefers reduced motion.
+    // Safety net: if site.js never runs, drop the class so nothing stays hidden.
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('js-motion');
+      setTimeout(function () { if (!window.__bcReady) document.documentElement.classList.remove('js-motion'); }, 3000);
+    }
+  </script>
   <script type="module" src="js/site.js"></script>
 </head>
 
@@ -19,12 +27,12 @@
     <!-- Latest quarter is hard-coded here so numbers show before Firestore loads; js/site.js overwrites it. -->
     <div class="ticker" aria-label="Latest quarter performance">
       <div class="wrap" data-ticker>
-        <span class="ticker-q">Q2 2026</span>
-        <span class="ticker-item bcm"><span>BCM</span><b>+13.1%</b></span>
-        <span class="ticker-item"><span>Dow 30</span><b>+12.9%</b></span>
-        <span class="ticker-item"><span>S&amp;P 500</span><b>+10.2%</b></span>
-        <span class="ticker-item"><span>S&amp;P 400</span><b>+17.3%</b></span>
-        <span class="ticker-item"><span>Nasdaq</span><b>+23.1%</b></span>
+        <span class="ticker-q">Q3 2026</span>
+        <span class="ticker-item bcm"><span>BCM</span><b>+11.1%</b></span>
+        <span class="ticker-item"><span>Dow 30</span><b>+6.48%</b></span>
+        <span class="ticker-item"><span>S&amp;P 500</span><b>+12.81%</b></span>
+        <span class="ticker-item"><span>S&amp;P 400</span><b>+10.98%</b></span>
+        <span class="ticker-item"><span>Nasdaq</span><b>+16.99%</b></span>
       </div>
     </div>
 
@@ -54,18 +62,18 @@
 
       <div class="perf-card" data-card>
         <div class="perf-card-top">
-          <span><span data-latest-label>Q2 2026</span> performance</span>
+          <span><span data-latest-label>Q3 2026</span> performance</span>
           <a href="#performance">All quarters →</a>
         </div>
         <div class="perf-big">
-          <span class="big" data-latest-bcm>+13.1%</span>
+          <span class="big" data-latest-bcm>+11.1%</span>
           <span class="cap">Blair Capital Management, quarter return</span>
         </div>
         <div data-comparisons>
-          <div class="cmp"><span>Dow 30</span><span class="val">+12.9%</span><span class="pill ahead">BCM +0.2 pts</span></div>
-          <div class="cmp"><span>S&amp;P 500</span><span class="val">+10.2%</span><span class="pill ahead">BCM +2.9 pts</span></div>
-          <div class="cmp"><span>S&amp;P 400</span><span class="val">+17.3%</span><span class="pill">BCM −4.2 pts</span></div>
-          <div class="cmp"><span>Nasdaq</span><span class="val">+23.1%</span><span class="pill">BCM −10 pts</span></div>
+          <div class="cmp"><span>Dow 30</span><span class="val">+6.48%</span><span class="pill ahead">BCM +4.62 pts</span></div>
+          <div class="cmp"><span>S&amp;P 500</span><span class="val">+12.81%</span><span class="pill">BCM −1.71 pts</span></div>
+          <div class="cmp"><span>S&amp;P 400</span><span class="val">+10.98%</span><span class="pill ahead">BCM +0.12 pts</span></div>
+          <div class="cmp"><span>Nasdaq</span><span class="val">+16.99%</span><span class="pill">BCM −5.89 pts</span></div>
         </div>
         <p class="fine">Past performance does not guarantee future results.</p>
       </div>

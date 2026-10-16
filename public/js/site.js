@@ -1,16 +1,39 @@
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
-import { db, FALLBACK, SERIES, r2, fmt, label, byDate, esc } from './performance.js';
+import { FALLBACK, SERIES, r2, fmt, label, byDate, esc } from './performance.js';
 
 const $ = sel => document.querySelector(sel);
+const motion = document.documentElement.classList.contains('js-motion');
+let latest = null;
+let counting = false;
+
+// ---- Rendering ----
+
+function tickerItems(L) {
+  return `<span class="ticker-q">${label(L)}</span>` +
+    SERIES.map(s => `<span class="ticker-item${s.key === 'bcm' ? ' bcm' : ''}"><span>${esc(s.short)}</span><b>${fmt(L[s.key])}</b></span>`).join('');
+}
+
+function renderTicker(L) {
+  const el = $('[data-ticker]');
+  const key = label(L) + SERIES.map(s => L[s.key]).join();
+  if (el.dataset.key === key) return; // don't restart the marquee for identical data
+  el.dataset.key = key;
+  if (!motion) {
+    el.innerHTML = tickerItems(L);
+    return;
+  }
+  // Marquee: two identical halves scrolled by -50% loop seamlessly. Each half is wider than the strip.
+  const half = tickerItems(L).repeat(3);
+  el.closest('.ticker').classList.add('marquee');
+  el.innerHTML = `<div class="ticker-track"><div class="ticker-half">${half}</div><div class="ticker-half" aria-hidden="true">${half}</div></div>`;
+}
 
 function renderLatest(L) {
-  $('[data-ticker]').innerHTML =
-    `<span class="ticker-q">${label(L)}</span>` +
-    SERIES.map(s => `<span class="ticker-item${s.key === 'bcm' ? ' bcm' : ''}"><span>${esc(s.short)}</span><b>${fmt(L[s.key])}</b></span>`).join('');
-
+  latest = L;
+  renderTicker(L);
   $('[data-latest-label]').textContent = label(L);
   const big = $('[data-latest-bcm]');
-  big.textContent = fmt(L.bcm);
+  if (counting) reserveWidth(big);
+  else big.textContent = fmt(L.bcm);
   big.classList.toggle('down', L.bcm < 0);
 
   $('[data-comparisons]').innerHTML = SERIES.slice(1).map(s => {
@@ -36,10 +59,10 @@ function renderChart(data) {
   $('[data-plot-inner]').style.minWidth = data.length * 160 + 'px';
 
   const grid = ticks.map(t => `<div class="gridline${t === 0 ? ' zero' : ''}" style="top:${pct(t)}%"></div>`).join('');
-  const groups = data.map(d => `<div class="group">${SERIES.map(s => {
+  const groups = data.map((d, gi) => `<div class="group">${SERIES.map((s, si) => {
     const v = d[s.key], neg = v < 0;
     const lbl = s.key === 'bcm' ? `<b style="top:${pct(v)}%">${fmt(v)}</b>` : '';
-    return `<div class="bar${neg ? ' neg' : ''}" title="${esc(`${s.short} ${label(d)}: ${fmt(v)}`)}">` +
+    return `<div class="bar${neg ? ' neg' : ''}" style="--d:${(gi * SERIES.length + si) * 45}ms" title="${esc(`${s.short} ${label(d)}: ${fmt(v)}`)}">` +
       `<i style="top:${pct(Math.max(v, 0))}%;height:${(Math.abs(v) / span) * 100}%;background:${s.color}"></i>${lbl}</div>`;
   }).join('')}</div>`).join('');
   $('[data-plot]').innerHTML = grid + `<div class="groups">${groups}</div>`;
@@ -61,6 +84,89 @@ function render(quarters) {
   renderTable(data);
 }
 
+// ---- Motion ----
+
+// Counts the hero number up from 0. Reads `latest` every frame, so late data lands on the right value.
+// Lock the number's width to its final value so the caption beside it doesn't jump while counting.
+function reserveWidth(el) {
+  const shown = el.textContent;
+  el.style.minWidth = '';
+  el.textContent = fmt(latest.bcm);
+  el.style.minWidth = el.getBoundingClientRect().width + 'px';
+  el.textContent = shown;
+}
+
+function countUp(el) {
+  counting = true;
+  const start = performance.now(), dur = 1100;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const frame = now => {
+    const t = Math.min(1, (now - start) / dur), target = latest.bcm;
+    reserveWidth(el); // every frame: the web font or the target may change mid-count
+    const dec = (String(Math.abs(target)).split('.')[1] || '').length;
+    const v = target * ease(t);
+    el.textContent = t < 1 ? (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(dec) + '%' : fmt(target);
+    if (t < 1) requestAnimationFrame(frame);
+    else { counting = false; el.style.minWidth = ''; }
+  };
+  requestAnimationFrame(frame);
+}
+
+function intro() {
+  $('[data-card]').classList.add('in');
+  countUp($('[data-latest-bcm]'));
+  setTimeout(() => $('[data-comparisons]').classList.add('in'), 350);
+}
+
+function observeReveals() {
+  const groups = [
+    '.hero-copy > *', '.history-head', '.panel', '.disclaimer', '.services .section-head', '.service',
+    '.positions', '.why-section .section-head', '.why', '.team-copy > *', '.contact .stack > *', '.address'
+  ];
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  }, { rootMargin: '0px 0px -8% 0px' });
+
+  for (const sel of groups) {
+    document.querySelectorAll(sel).forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.setProperty('--d', `${Math.min(i, 5) * 90}ms`);
+      io.observe(el);
+    });
+  }
+
+  const chart = $('[data-chart]');
+  const chartIo = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    chart.classList.add('in');
+    chartIo.disconnect();
+  }, { threshold: 0.35 });
+  chartIo.observe(chart);
+}
+
+// ---- Data ----
+
+async function loadQuarters() {
+  try {
+    const [{ db }, { collection, getDocs }] = await Promise.all([
+      import('./firebase.js'),
+      import('https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js')
+    ]);
+    const snap = await getDocs(collection(db, 'performance'));
+    const quarters = snap.docs.map(d => d.data());
+    return quarters.length ? quarters : null;
+  } catch (err) {
+    console.warn('Performance data unavailable, showing built-in figures.', err);
+    return null;
+  }
+}
+
+// ---- Boot ----
+
 $('[data-legend]').innerHTML = SERIES.map(s => `<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('');
 $('[data-year]').textContent = new Date().getFullYear();
 
@@ -72,7 +178,15 @@ document.querySelectorAll('[data-view]').forEach(btn => btn.addEventListener('cl
 }));
 
 render(FALLBACK);
+window.__bcReady = true;
+const quarters = loadQuarters();
 
-getDocs(collection(db, 'performance'))
-  .then(snap => render(snap.docs.map(d => d.data())))
-  .catch(err => console.warn('Performance data unavailable, showing built-in figures.', err));
+if (motion) {
+  observeReveals();
+  // Give Firestore a moment so the count-up lands on the real latest quarter, not the built-in one.
+  const first = await Promise.race([quarters, new Promise(r => setTimeout(r, 600, undefined))]);
+  if (first) render(first);
+  intro();
+}
+const data = await quarters;
+if (data) render(data);

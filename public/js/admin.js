@@ -1,6 +1,7 @@
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 import { collection, doc, getDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
-import { app, db, SERIES, fmt, label, docId, byDate, esc } from './performance.js';
+import { app, db } from './firebase.js';
+import { SERIES, fmt, label, docId, byDate, esc } from './performance.js';
 
 const auth = getAuth(app);
 const $ = sel => document.querySelector(sel);

@@ -208,6 +208,7 @@ $('[data-form]').addEventListener('submit', async e => {
       updatedAt: serverTimestamp(),
       updatedBy: auth.currentUser.email || auth.currentUser.uid
     });
+    setValues(null);
     state.saved = `Q${q} ${year} is live on the website.`;
   } catch (ex) {
     console.error(ex);

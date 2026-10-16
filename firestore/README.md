@@ -9,8 +9,8 @@ security rules out of the shared Taliferro project.
 
 ## Deploy the rules
 
-Rules are project-wide. `firestore.rules` is the full ruleset for `blaircapital-prod`:
-the pre-existing rules (used by Blair's other apps) plus the "Blair Capital website" block.
+Rules are project-wide. `firestore.rules` is the full ruleset for `blaircapital-prod`;
+the old TODD app rules were retired, so everything except the website's collections is denied.
 If anyone edits rules in the console, pull those edits in here before the next deploy, or
 they'll be overwritten. From this folder:
 

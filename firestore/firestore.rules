@@ -1,14 +1,15 @@
+// blaircapital-prod Firestore rules. Deploy from this folder only (pinned via .firebaserc).
+// Everything outside the "Blair Capital website" block is the pre-existing ruleset, unchanged.
 rules_version = '2';
-
-// Deployed to blaircapital-prod (NOT the Taliferro hosting project).
-// Rules are project-wide: before deploying, merge in the rules already live in
-// blaircapital-prod so other Blair apps keep working. See firestore/README.md.
 service cloud.firestore {
-  match /databases/{db}/documents {
+  match /databases/{database}/documents {
+
+    // ===== Blair Capital website (blair-capital.co) =====
+    // Quarterly performance: public read, staff-only write. Staff = has an admins/{uid} doc.
 
     function isAdmin() {
       return request.auth != null
-        && exists(/databases/$(db)/documents/admins/$(request.auth.uid));
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
     function isPct(v) {
@@ -19,12 +20,11 @@ service cloud.firestore {
       let d = request.resource.data;
       return d.year is int && d.year >= 2000 && d.year <= 2100
         && d.q in [1, 2, 3, 4]
-        && id == string(d.year) + '-Q' + string(d.q)
+        && id == string(d.year) + "-Q" + string(d.q)
         && isPct(d.bcm) && isPct(d.dow) && isPct(d.sp500) && isPct(d.sp400) && isPct(d.nasdaq)
-        && d.keys().hasOnly(['year', 'q', 'bcm', 'dow', 'sp500', 'sp400', 'nasdaq', 'updatedAt', 'updatedBy']);
+        && d.keys().hasOnly(["year", "q", "bcm", "dow", "sp500", "sp400", "nasdaq", "updatedAt", "updatedBy"]);
     }
 
-    // Blair Capital website: quarterly performance (public read, staff write).
     match /performance/{id} {
       allow read: if true;
       allow create, update: if isAdmin() && validQuarter(id);
@@ -36,7 +36,177 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow write: if false;
     }
+    // ===== end Blair Capital website =====
 
-    // --- Existing blaircapital-prod rules go below this line ---
+    // Default deny rule
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Global Rules
+    match /posts/{postId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /AILog/{AILogId} {
+      allow read, write: if true;
+    }
+    
+    match /app-activity/{appActivityId} {
+  		allow read, write: if true;
+    }
+     match /tokens/{tokenId} {
+  		allow read, write: if true;
+    }
+
+    // Specific collection rules
+    match /address-types/{addressTypeId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /auditLogs/{auditLogsId} {
+      allow read, write: if true;
+    }
+
+    match /categories/{categoryId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /carts/{cartId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /campaigns/{campaignId} {
+      allow read, write: if true;
+    }
+
+    match /inbox/{inboxId} {
+      allow read, write: if true;
+      allow read, write: if request.auth != null;
+    }
+
+    match /communications/{communicationId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /contacts/{contactId} {
+      allow read, write: if true;
+    }
+    
+    match /deleted-contacts/{deletedContactsId} {
+  		allow read, write: if true;
+    }
+
+
+    match /documents/{documentId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /emails/{emailId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /emailConfigs/{emailConfigsId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /emailQueue/{emailQueueId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /email-address-types/{emailAddressTypeId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /genders/{genderId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /orders/{orderId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /posts/{postId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /phone-types/{phoneTypeId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /product-dependencies/{productDependencyId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /product-types/{productTypeId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /products/{productId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /profile-types/{profileTypeId} {
+      allow read, write: if request.auth != null;
+    }
+
+match /projects/{projectId} {
+    	allow read, write: if request.auth != null;
+    }
+
+    match /project-doc-categories/{projectDocCatId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /project-documents/{projectDocId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /reports/{reportId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /saved-carts/{savedCartsId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /states/{statesId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /status/{statusId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /sub-categories/{subCategoryId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /surveys/{surveyId} {
+    	// Anyone can read the survey
+    	allow read: if true;
+
+    	// Only logged-in users with a matching tenantId can write
+    	allow write: if request.auth != null;
+    }
+
+    match /survey-responses/{surveyResponsesId} {
+    	allow read, write: if true;
+    }
+
+
+    match /tasks/{taskId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /task-type/{tasktypeId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /timezones/{timezoneId} {
+      allow read, write: if request.auth != null;
+    }
+
+    
   }
 }

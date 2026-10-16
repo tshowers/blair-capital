@@ -9,9 +9,10 @@ security rules out of the shared Taliferro project.
 
 ## Deploy the rules
 
-Rules are project-wide. Before the first deploy, copy the rules currently live in
-`blaircapital-prod` (Console → Firestore → Rules) into the bottom of `firestore.rules`,
-so other Blair apps keep working. Then, from this folder:
+Rules are project-wide. `firestore.rules` is the full ruleset for `blaircapital-prod`:
+the pre-existing rules (used by Blair's other apps) plus the "Blair Capital website" block.
+If anyone edits rules in the console, pull those edits in here before the next deploy, or
+they'll be overwritten. From this folder:
 
 ```sh
 firebase deploy --only firestore:rules   # .firebaserc here pins blaircapital-prod

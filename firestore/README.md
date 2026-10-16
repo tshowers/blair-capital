@@ -15,9 +15,11 @@ If anyone edits rules in the console, pull those edits in here before the next d
 they'll be overwritten. From this folder:
 
 ```sh
-firebase deploy --only firestore:rules   # .firebaserc here pins blaircapital-prod
+firebase deploy --only firestore:rules --project blaircapital-prod
 ```
 
+**Always pass `--project blaircapital-prod`.** The Firebase CLI remembers `taliferro-de66f` for
+`BlairCapital/root` (via `firebase use`), which can override `.firebaserc` here.
 Never add `"firestore"` to `../firebase.json`: that file deploys to `taliferro-de66f`.
 
 ## Add a staff member
